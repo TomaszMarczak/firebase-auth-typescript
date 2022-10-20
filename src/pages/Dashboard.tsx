@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
-import { Card, Form, Button, Alert } from "react-bootstrap";
+import { Card, Form, Button, Alert, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
 export default function Dashboard() {
   const {
     currentUser,
@@ -9,7 +9,7 @@ export default function Dashboard() {
     setError,
     updateUserEmail,
     updateUserPassword,
-    updateUserProfile,
+    updateUserName,
   } = useAuth();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const nameRef = useRef<HTMLInputElement | null>(null);
@@ -17,13 +17,13 @@ export default function Dashboard() {
   const passwordRetypeRef = useRef<HTMLInputElement | null>(null);
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
-  // console.log(currentUser);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     const promises: Promise<void>[] = [];
     e.preventDefault();
     setLoading(true);
+    setError("");
     setMessage("");
     if (
       passwordRef.current?.value &&
@@ -33,31 +33,25 @@ export default function Dashboard() {
     } else if (passwordRef.current?.value) {
       promises.push(updateUserPassword(passwordRef.current?.value as string));
     }
-
     if (emailRef.current?.value !== currentUser?.email) {
-      console.log("pushing updateUserEmail");
       promises.push(updateUserEmail(emailRef.current?.value as string));
-      console.log(promises);
     }
     if (nameRef.current?.value !== currentUser?.displayName) {
-      console.log(nameRef.current?.value);
-      console.log("pushing updateUserProfile");
-      promises.push(
-        updateUserProfile((nameRef.current?.value as string) || null)
-      );
-      console.log(promises);
+      promises.push(updateUserName((nameRef.current?.value as string) || null));
     }
-    console.log(promises);
-    Promise.all(promises)
-      .then(() => {
-        setMessage("Changes have been saved.");
-      })
-      .catch(() => {
-        setError("Failed to update account");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (promises.length > 0) {
+      Promise.all(promises)
+        .then(() => {
+          setMessage("Changes have been saved.");
+          navigate("/", { replace: true });
+        })
+        .catch(() => {
+          setError("Failed to update account");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else setLoading(false);
   };
 
   return (
@@ -86,7 +80,12 @@ export default function Dashboard() {
           </Form.Group>
           <Form.Group id="newPassword" className="mt-2">
             <Form.Label>New password:</Form.Label>
-            <Form.Control ref={passwordRef} type="password" />
+            <Form.Control
+              ref={passwordRef}
+              type="password"
+              autoComplete="new-password"
+              defaultValue=""
+            />
           </Form.Group>
           <Form.Group id="newPasswordRetype" className="mt-2">
             <Form.Label>Re-type new password:</Form.Label>
@@ -101,6 +100,16 @@ export default function Dashboard() {
             Save changes
           </Button>
         </Form>
+        {loading ? (
+          <Spinner
+            animation="border"
+            size="sm"
+            className="m-3"
+            style={{ position: "absolute", bottom: 0, right: 0 }}
+          />
+        ) : (
+          ""
+        )}
       </Card>
       {error && (
         <Alert variant="danger" className="mt-3 wrap">

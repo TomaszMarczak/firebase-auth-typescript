@@ -11,11 +11,11 @@ function App() {
   const { currentUser } = useAuth();
   return (
     <Container
-      className="d-flex align-items-center justify-content-center"
+      className="d-flex align-items-start justify-content-center my-5"
       style={{ minHeight: "100vh" }}
     >
       <div
-        className="d-flex flex-column align-items-center"
+        className="d-flex flex-column justify-content-center align-items-center"
         style={{ minWidth: "25vw" }}
       >
         <Header />
