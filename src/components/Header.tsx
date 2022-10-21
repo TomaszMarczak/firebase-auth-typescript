@@ -1,10 +1,9 @@
 import SignOutDelete from "./SignOutDelete";
 import { useAuth } from "../context/AuthContext";
 import ProfilePic from "./ProfilePic";
-import { Button } from "react-bootstrap";
 
 export default function Header() {
-  const { currentUser, deleteUserAccount } = useAuth();
+  const { currentUser } = useAuth();
   return (
     <>
       <h1 className="text-wrap">

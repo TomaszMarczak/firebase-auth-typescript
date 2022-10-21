@@ -1,7 +1,7 @@
 {
   "name": "firebase-auth-typescript",
   "version": "0.1.0",
-  "homepage": "https://tomaszmarczak.github.io/typescript-firebase",
+  "homepage": "https://tomaszmarczak.github.io/firebase-auth-typescript",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
