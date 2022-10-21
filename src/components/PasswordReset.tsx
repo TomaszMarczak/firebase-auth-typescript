@@ -22,8 +22,9 @@ export default function PasswordReset({
       try {
         setMessage("");
         setLoading(() => true);
-        await passwordReset(emailRef.current.value);
-        setMessage("Check your inbox!");
+        await passwordReset(emailRef.current.value).then(() =>
+          setMessage("Check your inbox!")
+        );
       } catch {
         setError("Failed to reset password.");
       }
