@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/typescript-firebase/static/css/main.24783d81.css",
+    "main.js": "/typescript-firebase/static/js/main.47c51834.js",
+    "index.html": "/typescript-firebase/index.html",
+    "main.24783d81.css.map": "/typescript-firebase/static/css/main.24783d81.css.map",
+    "main.47c51834.js.map": "/typescript-firebase/static/js/main.47c51834.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.24783d81.css",
+    "static/js/main.47c51834.js"
+  ]
+}
