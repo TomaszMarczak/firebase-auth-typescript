@@ -12,7 +12,7 @@ export default function PasswordReset({
   const emailRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
-  const { setError, passwordReset } = useAuth();
+  const { setError, passwordReset, error } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,9 +65,9 @@ export default function PasswordReset({
         </Button>
       </Card>
 
-      {message && (
+      {message && !error && (
         <Alert variant="success" className="mt-3">
-          {message}{" "}
+          {message}
         </Alert>
       )}
     </>
