@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { BsPersonBoundingBox } from "react-icons/bs";
-import { Image } from "react-bootstrap";
+import { BsPersonBoundingBox, BsTrash } from "react-icons/bs";
+import { Image, Button } from "react-bootstrap";
 import UploadModal from "./UploadModal";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfilePic() {
-  const { currentUser } = useAuth();
+  const { currentUser, deleteUserPhoto } = useAuth();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-
+  const navigate = useNavigate();
   return (
     <>
       {currentUser ? (
@@ -23,12 +24,35 @@ export default function ProfilePic() {
               </div>
             </div>
           ) : (
-            <Image
-              onClick={() => setModalOpen(true)}
-              src={currentUser.photoURL || ""}
-              className="rounded-circle d-block mx-auto"
-              style={{ width: "10rem", cursor: "pointer" }}
-            />
+            <div className="position-relative">
+              <Image
+                onClick={() => setModalOpen(true)}
+                src={currentUser.photoURL || ""}
+                className="rounded-circle d-block mx-auto"
+                style={{
+                  width: "10rem",
+                  height: "10rem",
+                  cursor: "pointer",
+                  objectFit: "cover",
+                }}
+              />
+              <span
+                onClick={() => {
+                  deleteUserPhoto().then(() => navigate(0));
+                }}
+                id="delete-trash"
+                className="hover-scale-2"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  padding: 0,
+                  cursor: "pointer",
+                }}
+              >
+                <BsTrash />
+              </span>
+            </div>
           )}
         </div>
       ) : (

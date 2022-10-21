@@ -37,7 +37,7 @@ export default function Dashboard() {
       promises.push(updateUserEmail(emailRef.current?.value as string));
     }
     if (nameRef.current?.value !== currentUser?.displayName) {
-      promises.push(updateUserName((nameRef.current?.value as string) || null));
+      promises.push(updateUserName(nameRef.current?.value as string));
     }
     if (promises.length > 0) {
       Promise.all(promises)

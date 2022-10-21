@@ -1,10 +1,11 @@
-import { Modal, Button, ProgressBar, Form } from "react-bootstrap";
+import { Modal, Button, ProgressBar, Form, Spinner } from "react-bootstrap";
 import { storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 type UploadModalTypes = {
   open: boolean;
@@ -16,39 +17,49 @@ export default function UploadModal({ open, setOpen }: UploadModalTypes) {
   const [bytesTransferred, setBytesTransferred] = useState<number>(0);
   const [totalBytes, setTotalBytes] = useState<number>(0);
   const [uploading, setUploading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const { setError, updateUserProfilePic, deleteUserPhoto } = useAuth();
   const navigate = useNavigate();
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const handleSubmit = async (e: React.MouseEvent) => {
-    setUploading(() => true);
     e.preventDefault();
     const fileName = uuidv4();
     const storageRef = ref(storage, "images/" + fileName);
-    if (file) {
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          setTotalBytes(snapshot.totalBytes);
-          setBytesTransferred(snapshot.bytesTransferred);
-        },
-        (error) => {
-          setUploading(() => false);
-          setError("Failed to upload image.");
-        },
-        () => {
-          setUploading(() => false);
-          deleteUserPhoto()
-            .then(() => {
-              getDownloadURL(uploadTask.snapshot.ref).then((URL) => {
-                updateUserProfilePic(URL);
-                setOpen(false);
-                navigate(0);
-              });
-            })
-            .catch((error) => setError(error.code));
-        }
-      );
+    try {
+      if (file) {
+        setUploading(() => true);
+        setLoading(() => true);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            setTotalBytes(snapshot.totalBytes);
+            setBytesTransferred(snapshot.bytesTransferred);
+          },
+          (error) => {
+            setUploading(() => false);
+            setError("Failed to upload image.");
+          },
+          () => {
+            setUploading(() => false);
+            deleteUserPhoto()
+              .then(() => {
+                getDownloadURL(uploadTask.snapshot.ref).then((URL) => {
+                  updateUserProfilePic(URL);
+                  setOpen(false);
+                  navigate(0);
+                });
+              })
+              .catch((error) => setError(error.code));
+          }
+        );
+      }
+    } catch (error) {
+      setLoading(() => false);
+      console.log(error);
     }
   };
   return (
@@ -85,6 +96,16 @@ export default function UploadModal({ open, setOpen }: UploadModalTypes) {
           <Button onClick={handleSubmit}>Upload</Button>
         </div>
       </Modal.Footer>
+      {loading ? (
+        <Spinner
+          animation="border"
+          size="sm"
+          className=""
+          style={{ position: "absolute", bottom: 0, right: 0 }}
+        />
+      ) : (
+        ""
+      )}
     </Modal>
   );
 }

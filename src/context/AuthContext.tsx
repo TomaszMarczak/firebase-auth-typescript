@@ -16,6 +16,7 @@ import {
   updateProfile,
   updateEmail,
   updatePassword,
+  deleteUser,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { storage } from "../firebase";
@@ -35,6 +36,7 @@ type AuthContextType = {
   updateUserPassword: (password: string) => Promise<void>;
   updateUserProfilePic: (imageURL: string) => Promise<void>;
   deleteUserPhoto: () => Promise<void>;
+  deleteUserAccount: () => Promise<void>;
 };
 
 const AuthContext = createContext({} as AuthContextType);
@@ -118,17 +120,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const deleteUserPhoto = (): Promise<void> => {
     const currentPhotoURL = currentUser?.photoURL || "";
     if (currentPhotoURL) {
-      if (currentPhotoURL.match(/(firebasestorage.googleapis.com)/gm)) {
-        const currentImageName = currentPhotoURL.match(
-          /(?<=images%2F)(.*)(?=\?)/gm
-        );
-        if (currentImageName && (currentImageName?.length as number) > 0) {
-          const currentPhotoRef = ref(storage, "images/" + currentImageName[0]);
-          deleteObject(currentPhotoRef);
+      try {
+        if (currentPhotoURL.match(/(firebasestorage.googleapis.com)/gm)) {
+          const currentImageName = currentPhotoURL.match(
+            /(?<=images%2F)(.*)(?=\?)/gm
+          );
+          if (currentImageName && (currentImageName?.length as number) > 0) {
+            const currentPhotoRef = ref(
+              storage,
+              "images/" + currentImageName[0]
+            );
+            deleteObject(currentPhotoRef);
+          }
         }
+      } catch (error) {
+        console.log(error);
       }
     }
-    return updateUserProfilePic(null);
+    return updateUserProfilePic("").catch((error) => console.log(error));
+  };
+
+  const deleteUserAccount = async (): Promise<void> => {
+    await deleteUserPhoto();
+    return deleteUser(currentUser as User).then(() => navigate("/"));
   };
 
   useEffect(() => {
@@ -154,6 +168,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     updateUserName,
     updateUserProfilePic,
     deleteUserPhoto,
+    deleteUserAccount,
   };
 
   return (

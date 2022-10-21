@@ -1,9 +1,10 @@
-import Logout from "./Logout";
+import SignOutDelete from "./SignOutDelete";
 import { useAuth } from "../context/AuthContext";
 import ProfilePic from "./ProfilePic";
+import { Button } from "react-bootstrap";
 
 export default function Header() {
-  const { currentUser } = useAuth();
+  const { currentUser, deleteUserAccount } = useAuth();
   return (
     <>
       <h1 className="text-wrap">
@@ -17,7 +18,7 @@ export default function Header() {
         )}
       </h1>
       <ProfilePic />
-      {currentUser && <Logout />}
+      {currentUser && <SignOutDelete />}
     </>
   );
 }
