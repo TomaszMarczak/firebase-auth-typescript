@@ -41,22 +41,20 @@ export default function Login() {
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" ref={passwordRef}></Form.Control>
               </Form.Group>
-              <Button
-                type="submit"
-                className="w-75 mt-3 mx-auto"
-                disabled={loading}
-              >
-                Sign in
-              </Button>
+              <div className="d-flex flex-column mx-auto w-75 justify-content-center align-items-center mt-3 gap-3">
+                <Button type="submit" className="w-100" disabled={loading}>
+                  Sign in
+                </Button>
+                <Button
+                  variant="outline-secondary"
+                  className="w-100"
+                  size="sm"
+                  onClick={() => setForgotPassword(true)}
+                >
+                  Forgot password?
+                </Button>
+              </div>
             </Form>
-            <Button
-              variant="outline-secondary"
-              className="mt-3 w-75 mx-auto"
-              size="sm"
-              onClick={() => setForgotPassword(true)}
-            >
-              Forgot password?
-            </Button>
           </Card>
         </>
       ) : (

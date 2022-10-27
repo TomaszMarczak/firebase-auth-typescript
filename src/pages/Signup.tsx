@@ -57,7 +57,7 @@ export default function Signup() {
               ref={passwordRetypeRef}
             ></Form.Control>
           </Form.Group>
-          <Button type="submit" className="w-100 mt-3" disabled={loading}>
+          <Button type="submit" className="mt-3" disabled={loading}>
             Sign Up
           </Button>
         </Form>

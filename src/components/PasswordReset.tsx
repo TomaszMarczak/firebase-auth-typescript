@@ -47,22 +47,20 @@ export default function PasswordReset({
             <Form.Label>Email</Form.Label>
             <Form.Control type="email" ref={emailRef}></Form.Control>
           </Form.Group>
-          <Button
-            type="submit"
-            className="w-75 mt-3 mx-auto"
-            disabled={loading}
-          >
-            Retrieve password
-          </Button>
+          <div className="d-flex flex-column mx-auto w-75 justify-content-center align-items-center mt-3 gap-3">
+            <Button type="submit" className="w-100" disabled={loading}>
+              Submit
+            </Button>{" "}
+            <Button
+              variant="outline-secondary"
+              className="w-100"
+              size="sm"
+              onClick={() => setForgotPassword(false)}
+            >
+              Go back
+            </Button>
+          </div>
         </Form>
-        <Button
-          variant="outline-secondary"
-          className="mt-3 w-75 mx-auto"
-          size="sm"
-          onClick={() => setForgotPassword(false)}
-        >
-          Go back
-        </Button>
       </Card>
 
       {message && !error && (
