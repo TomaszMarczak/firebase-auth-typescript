@@ -18,7 +18,8 @@ export default function UploadModal({ open, setOpen }: UploadModalTypes) {
   const [totalBytes, setTotalBytes] = useState<number>(0);
   const [uploading, setUploading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const { setError, updateUserProfilePic, deleteUserPhoto } = useAuth();
+  const { setError, updateUserProfilePic, deleteUserPhoto, currentUser } =
+    useAuth();
   const navigate = useNavigate();
   useEffect(() => {
     setLoading(false);
@@ -27,7 +28,7 @@ export default function UploadModal({ open, setOpen }: UploadModalTypes) {
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
     const fileName = uuidv4();
-    const storageRef = ref(storage, "images/" + fileName);
+    const storageRef = ref(storage, "images/" + (currentUser?.uid || fileName));
     try {
       if (file) {
         setUploading(() => true);
@@ -41,7 +42,12 @@ export default function UploadModal({ open, setOpen }: UploadModalTypes) {
           },
           (error) => {
             setUploading(() => false);
-            setError("Failed to upload image.");
+            setLoading(() => false);
+            setError(
+              "Failed to upload an image. File is too big or invalid type."
+            );
+            console.log(error.code);
+            setOpen(false);
           },
           () => {
             setUploading(() => false);
@@ -78,6 +84,7 @@ export default function UploadModal({ open, setOpen }: UploadModalTypes) {
                 setFile(target);
               }}
               type="file"
+              accept="image/*"
             />
           </Form.Group>
         </Form>

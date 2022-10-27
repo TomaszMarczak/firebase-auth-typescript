@@ -40,7 +40,7 @@ export default function Signup() {
         className="py-4 px-5 d-flex-column mx-auto"
         style={{ width: "25vw", minWidth: "20rem" }}
       >
-        <h2 className="text-center mb-4">Sign Up</h2>
+        <h3 className="text-center mb-4">Sign Up</h3>
         <Form onSubmit={handleSubmit}>
           <Form.Group id="email" className="mt-2">
             <Form.Label>Email</Form.Label>
@@ -67,7 +67,7 @@ export default function Signup() {
           {error}
         </Alert>
       )}
-      <div className="w-100 text-center mt-2">
+      <div className="w-100 text-center mt-2" id="underCardText">
         Already have an account?{" "}
         <Link to="/login" replace={true}>
           Log in!

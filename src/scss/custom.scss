@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa&display=swap");
+
+$primary: #3d294b;
+$secondary: #001372;
+
+$card-bg-color: rgba(240, 240, 240, 0.5);
+$card-shadow: 0px 0px 15rem 1rem;
+$picture-shadow: 0px 0px 0.5rem 0px;
+$main-bg-color: #064380;
+$secondary-bg-color: #72a6be;
+$body-bg: white;
+$body-color: white;
+
+$input-color: $main-bg-color;
+$font-family-sans-serif: "Comfortaa", -apple-system, BlinkMacSystemFont,
+  "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol";
+$modal-content-color: $main-bg-color;
+
+a {
+  color: $secondary !important;
+  text-underline-offset: 0.3rem;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  background: $main-bg-color;
+  background: linear-gradient(
+    45deg,
+    $main-bg-color 0%,
+    $secondary-bg-color 100%
+  );
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+#delete-trash:hover {
+  transform: scale(1.3);
+}
+#delete-trash {
+  transition: 150ms ease-in-out;
+  color: $card-bg-color;
+}
+
+#profilePicture {
+  box-shadow: $picture-shadow;
+  transition: 150ms ease-in-out;
+}
+#profilePicture:hover {
+  transform: scale(1.05);
+}
+
+.card {
+  box-shadow: $card-shadow $card-bg-color;
+  -webkit-box-shadow: $card-shadow $card-bg-color;
+  -moz-box-shadow: $card-shadow $card-bg-color;
+  background-color: $card-bg-color !important;
+  color: $main-bg-color;
+}
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
