@@ -31,7 +31,7 @@ export default function Login() {
             className="py-4 px-5 d-flex-column mx-auto"
             style={{ width: "25vw", minWidth: "20rem" }}
           >
-            <h2 className="text-center mb-4">Sign In</h2>
+            <h3 className="text-center">Sign In</h3>
             <Form onSubmit={handleSubmit} className="d-flex flex-column">
               <Form.Group id="email" className="mt-2">
                 <Form.Label>Email</Form.Label>
@@ -67,7 +67,7 @@ export default function Login() {
           {error}
         </Alert>
       )}
-      <div className="w-100 text-center mt-2">
+      <div className="w-100 text-center mt-2" id="underCardText">
         You don't have an account?{" "}
         <Link to="/signup" replace={true}>
           Sign up!

@@ -38,7 +38,7 @@ export default function PasswordReset({
         className="py-4 px-5 d-flex-column mx-auto"
         style={{ width: "25vw", minWidth: "20rem" }}
       >
-        <h2 className="text-center mb-4">Password retrieval</h2>
+        <h3 className="text-center mb-4">Password retrieval</h3>
         <Form
           onSubmit={handleSubmit}
           className="d-flex flex-column justify-content-center"

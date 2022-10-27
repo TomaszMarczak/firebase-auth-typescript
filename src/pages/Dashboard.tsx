@@ -60,7 +60,7 @@ export default function Dashboard() {
         className="py-4 px-5 d-flex-column mx-auto"
         style={{ width: "25vw", minWidth: "20rem" }}
       >
-        <h2 className="text-center mb-4">Dashboard</h2>
+        <h3 className="text-center mb-4">Dashboard</h3>
         <Form onSubmit={handleSubmit}>
           <Form.Group id="displayName" className="mt-2">
             <Form.Label>Display name:</Form.Label>

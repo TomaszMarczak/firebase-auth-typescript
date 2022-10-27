@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { BsPersonBoundingBox, BsTrash } from "react-icons/bs";
-import { Image, Button } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 import UploadModal from "./UploadModal";
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +28,8 @@ export default function ProfilePic() {
               <Image
                 onClick={() => setModalOpen(true)}
                 src={currentUser.photoURL || ""}
-                className="rounded-circle d-block mx-auto"
+                id="profilePicture"
+                className="rounded-circle d-block mx-auto my-2"
                 style={{
                   width: "10rem",
                   height: "10rem",
